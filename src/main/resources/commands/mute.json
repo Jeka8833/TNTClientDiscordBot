@@ -1,0 +1,49 @@
+{
+  "name": "mute",
+  "description": "Controls the Mute list.",
+  "options": [
+    {
+      "name": "add",
+      "description": "Add a player to the Mute list for TNTClient Chat.",
+      "type": 1,
+      "options": [
+        {
+          "name": "player",
+          "description": "The player to mute",
+          "type": 3,
+          "required": true
+        },
+        {
+          "name": "description",
+          "description": "The reason for the mute",
+          "type": 3,
+          "required": true
+        },
+        {
+          "name": "time",
+          "description": "The time for the mute, format: \"1d 2h 3m 4s\" it`s 1 day 2 hours 3 minutes 4 seconds",
+          "type": 3,
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "description": "Remove a player to the Mute list for TNTClient Chat.",
+      "type": 1,
+      "options": [
+        {
+          "name": "player",
+          "description": "The player to unmute",
+          "type": 3,
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "description": "Mute list for TNTClient Chat.",
+      "type": 1
+    }
+  ]
+}
