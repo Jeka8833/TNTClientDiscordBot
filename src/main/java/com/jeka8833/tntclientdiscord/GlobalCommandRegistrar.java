@@ -36,6 +36,7 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
         // Convenience variables for the sake of easier to read code below.
         PathMatchingResourcePatternResolver matcher = new PathMatchingResourcePatternResolver();
         final ApplicationService applicationService = client.getApplicationService();
+        //noinspection DataFlowIssue
         final long applicationId = client.getApplicationId().block();
 
         //Get our commands json from resources as command data

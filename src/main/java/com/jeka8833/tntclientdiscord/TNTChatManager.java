@@ -8,10 +8,14 @@ import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.entity.User;
 import discord4j.discordjson.json.EmbedAuthorData;
 import discord4j.discordjson.json.EmbedData;
+import discord4j.discordjson.json.EmbedFooterData;
+import discord4j.discordjson.json.ImmutableEmbedFooterData;
 import discord4j.discordjson.possible.Possible;
 import discord4j.rest.util.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -26,17 +30,37 @@ public class TNTChatManager {
     private static final GatewayDiscordClient discordClient =
             StaticContextAccessor.getBean(GatewayDiscordClient.class);
 
-    public static void sendMessage(UUID user, String text) {
+    public static void sendMessage(@NotNull UUID sender, @Nullable UUID receiver,
+                                   @NotNull ServerType serverType, @NotNull String message) {
         Mono.fromRunnable(() -> {
-            var playerInformation = new MojangPlayer(user);
+            var senderAccount = new MojangPlayer(sender);
+
+            String server = serverType == ServerType.UNKNOWN ?
+                    "Server: Global" : "Server: " + serverType.getDisplayName();
+
+            ImmutableEmbedFooterData footerBuilder;
+            if (receiver != null) {
+                var receiverAccount = new MojangPlayer(receiver);
+
+                footerBuilder = EmbedFooterData.builder()
+                        .iconUrl("https://mc-heads.net/avatar/" + receiver)
+                        .text("Dirrect to: " + receiverAccount + "; " + server)
+                        .build();
+            } else {
+                footerBuilder = EmbedFooterData.builder()
+                        .text(server)
+                        .build();
+            }
+
 
             EmbedData embed = EmbedData.builder()
                     .color(Color.CYAN.getRGB())
                     .author(EmbedAuthorData.builder()
-                            .name(playerInformation.toString())
-                            .iconUrl("https://mc-heads.net/avatar/" + user)
+                            .name(senderAccount.toString())
+                            .iconUrl("https://mc-heads.net/avatar/" + sender)
                             .build())
-                    .description(text)
+                    .description(message)
+                    .footer(footerBuilder)
                     .timestamp(Instant.now().toString())
                     .build();
 

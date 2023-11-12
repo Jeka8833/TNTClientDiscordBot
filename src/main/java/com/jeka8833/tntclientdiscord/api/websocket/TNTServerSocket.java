@@ -6,7 +6,7 @@ import com.jeka8833.tntclientdiscord.api.websocket.packet.Packet;
 import com.jeka8833.tntclientdiscord.api.websocket.packet.PacketInputStream;
 import com.jeka8833.tntclientdiscord.api.websocket.packet.PacketOutputStream;
 import com.jeka8833.tntclientdiscord.api.websocket.packet.packets.AuthPacket;
-import com.jeka8833.tntclientdiscord.api.websocket.packet.packets.ChatPacket;
+import com.jeka8833.tntclientdiscord.api.websocket.packet.packets.ChatHookPacket;
 import com.jeka8833.tntclientdiscord.api.websocket.packet.packets.LinkCodePacket;
 import com.jeka8833.tntclientdiscord.api.websocket.packet.packets.MutePacket;
 import okhttp3.Request;
@@ -80,7 +80,7 @@ public class TNTServerSocket extends WebSocketListener {
     public static final BiMap<Byte, Class<? extends Packet>> registeredPackets = new BiMap<>();
 
     static {
-        registeredPackets.put((byte) 6, ChatPacket.class);
+        registeredPackets.put((byte) 248, ChatHookPacket.class);
         registeredPackets.put((byte) 249, MutePacket.class);
         registeredPackets.put((byte) 250, LinkCodePacket.class);
         registeredPackets.put((byte) 255, AuthPacket.class);

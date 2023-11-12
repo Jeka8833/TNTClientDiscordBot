@@ -141,7 +141,7 @@ public class MojangPlayer {
     @NonBlocking
     public static void getPlayerName(@Nullable UUID uuid,
                                      @NotNull Consumer<@NotNull Optional<@NotNull MojangPlayer>> listener) {
-        if (uuid == null) {
+        if (uuid == null || uuid.version() != 4 || uuid.variant() != 2) {
             listener.accept(Optional.empty());
             return;
         }

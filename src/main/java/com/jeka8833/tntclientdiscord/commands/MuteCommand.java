@@ -7,6 +7,7 @@ import com.jeka8833.tntclientdiscord.api.websocket.packet.packets.MutePacket;
 import com.jeka8833.tntclientdiscord.database.DiscordUserConfigurationRepository;
 import com.jeka8833.tntclientdiscord.database.Muted;
 import com.jeka8833.tntclientdiscord.database.MutedRepository;
+import com.jeka8833.tntclientdiscord.listeners.SlashCommandListener;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @Component
-public class MuteCommand implements SlashCommand {
+public class MuteCommand implements SlashCommandListener {
     private static final Map<Pattern, TimeUnit> regexToTimeUnit = Map.of(
             Pattern.compile("^(\\d+)s$"), TimeUnit.SECONDS,
             Pattern.compile("^(\\d+)m$"), TimeUnit.MINUTES,
