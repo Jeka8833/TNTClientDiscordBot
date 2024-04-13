@@ -20,14 +20,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Component
+@EnableScheduling
 public class TNTChatCommand implements SlashCommandListener, ButtonListener {
     private static final UUID UNKNOWN_USER = new UUID(0, 0);
 
@@ -44,6 +48,11 @@ public class TNTChatCommand implements SlashCommandListener, ButtonListener {
         this.configurationRepository = configurationRepository;
         this.liveChatListRepository = liveChatListRepository;
         this.playerRepository = playerRepository;
+    }
+
+    @Scheduled(fixedDelay = 30, timeUnit = TimeUnit.MINUTES)
+    public void checkTimeout() {
+        WAITING_MESSAGE_MAP.values().removeIf(WaitingMessage::isTimeout);
     }
 
     @Override
